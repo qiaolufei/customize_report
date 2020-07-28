@@ -1,0 +1,66 @@
+body {
+	background-color: #F1F2F6;
+}
+
+body button:hover {
+	cursor: pointer;
+}
+
+body .cover {
+	margin: 20px;
+	background-color: #ffffff;
+	padding: 0 20px;
+	overflow: hidden;
+}
+
+body .cover .manage-title {
+	height: 60px;
+	overflow: hidden;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
+}
+
+body .cover .manage-title .tast-title {
+	height: 26px;
+	font-size: 18px;
+	color: #3C3C3C;
+	font-weight: bold;
+	padding-left: 20px;
+	border-left: 4px solid #409eff;
+}
+
+.choose {
+	border: 1px solid #F1F2F4;
+	background-color: #ECF6FF;
+	margin: 20px 0;
+	padding: 10px 0 10px 20px;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+.table {
+	text-align: center;
+}
+
+.score-statistics {
+	height: 40px;
+	border: 1px solid #DCDFE6;
+	border-radius: 5px;
+	color: #409eff;
+	margin: 0 0 20px 0;
+	padding-right: 20px;
+	font-size: 16px;
+	text-align: right;
+}
+
+.score-statistics a {
+	color: #409eff;
+	line-height: 40px;
+	margin-left: 10px;
+}
+
+button:hover {
+	cursor: pointer;
+}

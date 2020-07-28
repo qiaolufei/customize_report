@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="./Css/pbtj.css" />
+		<link rel="stylesheet" type="text/css" href="./layui-v2.5.5/css/layui.css" />
+		<script src="./Js/jquery-3.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="./Js/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<script src="./Js/bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./layui-v2.5.5/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./Js/print.js" type="text/javascript" charset="utf-8"></script>
+		<title>自定义报告单</title>
+	</head>
+	<body>
+		<div class="cover">
+			<div class="manage-title">
+				<p class="tast-title">自定义报告单</p>
+			</div>
+			<div class="score-statistics">
+				<a style="text-align: center;" onclick="printTable()" href="#"><i class="layui-icon layui-icon-print"></i>打印</a>
+				<a style="text-align: center;" onclick="save()" href="#"><i class="layui-icon layui-icon-template-1"></i>导出源码</a>
+			</div>
+			<div style="margin-top: 20px;" class="">
+				<div class="left">
+					<div class="layui-collapse" lay-accordion>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">1X1</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(110)">输入框</button>
+								<button class="btn" onclick="addtype(111)">标题+输入框</button>
+								<button class="btn" onclick="addtype(112)">单选框</button>
+								<button class="btn" onclick="addtype(113)">标题+单选框</button>
+							</div>
+						</div>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">1X2</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(120)">输入框</button>
+								<button class="btn" onclick="addtype(121)">标题+输入框</button>
+								<button class="btn" onclick="addtype(123)">标题+2单选框</button>
+								<button class="btn" onclick="addtype(122)">2单选框</button>
+							</div>
+						</div>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">1X3</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(130)">输入框</button>
+								<button class="btn" onclick="addtype(131)">标题+输入框</button>
+								<button class="btn" onclick="addtype(132)">标题+2单选框</button>
+								<button class="btn" onclick="addtype(134)">2单选框</button>
+								<button class="btn" onclick="addtype(133)">标题+3单选框</button>
+								<button class="btn" onclick="addtype(135)">3单选框</button>
+							</div>
+						</div>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">2X3</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(230)">输入框</button>
+								<button class="btn" onclick="addtype(231)">标题+输入框</button>
+							</div>
+						</div>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">3X3</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(330)">输入框</button>
+								<button class="btn" onclick="addtype(331)">标题+输入框</button>
+							</div>
+						</div>
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title">常用</h2>
+							<div class="layui-colla-content ">
+								<button class="btn" onclick="addtype(136)">表头</button>
+								<button class="btn" onclick="addtype(137)">签字</button>
+								<button class="btn" onclick="addtype(138)">日期</button>
+								<button class="btn" onclick="addtype(139)">签字+日期</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 报告单展示 -->
+				<div class="right">
+					<div class="tableDiv">
+						<div class="table">
+						</div>
+					</div>
+					<div class="choose1">
+						<button id="cancel" onclick="cancel()" type="button" class="layui-btn  layui-btn-sm layui-btn-primary"><i class="layui-icon layui-icon-return"></i>撤销上步</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 导出源码弹出框 -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">导出源码</h4>
+					</div>
+					<div class="modal-body">
+					<h4>HTML</h4>
+					<div class="code" style="width:100%;height:200px;overflow-y: scroll;">
+						<pre>
+							<xmp id="htmlInfo"></xmp>
+						</pre>
+					</div>
+					<h4>CSS</h4>
+					<div class="code" style="width:100%;height:200px;overflow-y: scroll;">
+						<pre>
+input {
+	border: none;
+}
+input:focus{outline:none}
+.type1 {
+	font-size: 16px;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 33.33333%;
+	border: 1px solid #585858;
+	padding: 10px 2px;
+	text-align: left;
+	margin: 0;
+}
+
+.type2 {
+	font-size: 16px;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 50%;
+	border: 1px solid #585858;
+	padding: 10px 4px;
+	text-align: left;
+	margin: 0;
+}
+.type3 {
+	font-size: 16px;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #585858;
+	padding: 10px 2px;
+	text-align: left;
+	margin: 0;
+}
+						</pre>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var cliH = document.documentElement.clientHeight;
+		$(".cover").css("min-height", cliH - 40);
+		$(".left").css('height', $("body")[0].scrollHeight - 150)
+		$(".right").css('height', $("body")[0].scrollHeight - 190)
+		layui.use('element', function() {
+			var element = layui.element;
+		});
+
+		function getTime() { //获取当前日期
+			let d = new Date();
+			let year = d.getFullYear();
+			let month = d.getMonth() + 1;
+			let day = d.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (day >= 0 && day <= 9) {
+				day = "0" + day;
+			}
+			let dt = year + "年" + month.toString() + "月" + day.toString() + "日";
+			return dt;
+		}
+		var n = getTime() //日期默认今天
+		// 拼接表单
+		var indexArr = []
+		function addtype(index) {
+			indexArr.push(String(index).slice(0,2))
+			var msg = ''
+			switch (index) {
+				case 110:
+					msg = "<div class='type1'><input  style='width:100%;' /></div>"
+					break;
+				case 111:
+					msg =
+						"<div class='type1'><input  style='width:29%;' />：<input style='width:60%;'/></div>"
+					break;
+				case 112:
+					msg = "<div class='type1'>" +
+						"<div style='display:inline;' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"</div>"
+					break;
+				case 113:
+					msg =
+						"<div class='type1'><input  style='width:29%;' />：" +
+						"<div style='display:inline;' class='checkbox'><label style='display:inline;'><input type='checkbox' value=''><input style='width:50%'  /></label></div>" +
+						"</div>"
+					break;
+				case 120:
+					msg = "<div class='type2'><input  style='width:100%;'/></div>"
+					break;
+				case 121:
+					msg =
+						"<div class='type2'><input  style='width:24%;' />：<input  style='width:60%;'/></div>"
+					break;
+				case 122:
+					msg = "<div class='type2'>" +
+						"<div style='display:inline' class='checkbox'><label style='display:inline;'><input type='checkbox' value=''><input style='width:40%'  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label style='display:inline;'><input type='checkbox' value=''><input style='width:40%'  /></label></div>" +
+						"</div>"
+					break;
+				case 123:
+					msg =
+						"<div class='type2'><input  style='width:24%;' />：" +
+						"<div style='display:inline' class='checkbox'><label style='display:inline;'><input type='checkbox' value=''><input style='width:25%'  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label style='display:inline;'><input type='checkbox' value=''><input style='width:25%'  /></label></div>" +
+						"</div>"
+					break;
+				case 130:
+					msg = "<div class='type3'><input  style='width:100%;'/></div>"
+					break;
+				case 131:
+					msg =
+						"<div class='type3'><input  style='width:12%;' />：<input  style='width:60%;'/></div>"
+					break;
+				case 132:
+					msg =
+						"<div class='type3'><input  style='width:12%;' />：" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"</div>"
+					break;
+				case 133:
+					msg =
+						"<div class='type3'><input  style='width:12%;' />：" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"</div>"
+					break;
+				case 134:
+					msg =
+						"<div class='type3'>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"</div>"
+					break;
+				case 135:
+					msg =
+						"<div class='type3'>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"<div style='display:inline' class='checkbox'><label><input type='checkbox' value=''><input  /></label></div>" +
+						"</div>"
+					break;
+				case 230:
+					msg = "<div class='type3'><textarea  rows=2 style='width:100%;'></textarea></div>"
+					break;
+				case 231:
+					msg =
+						"<div class='type3'><input  style='width:12%;' />：<textarea  rows=2 style='width:70%;vertical-align: top;'></textarea></div>"
+					break;
+				case 330:
+					msg = "<div class='type3'><textarea  rows=3 style='width:100%;'></textarea></div>"
+					break;
+				case 331:
+					msg =
+						"<div class='type3'><input  style='width:12%;' />：<textarea  rows=3 style='width:70%;vertical-align: top;'></textarea></div>"
+					break;
+				case 136:
+					msg =
+						"<div style='font-size:24px;font-weight:bold;text-align:center' class='type3'><input style='text-align:center' placeholder='表头' style='width:100%;'/></div>"
+					break;
+				case 137:
+					msg =
+						"<div style='text-align:right' class='type3'><input style='text-align:right' placeholder='签字' value='签字' style='width:12%;' />：<input style='width:20%;'/></div>"
+					break;
+				case 138:
+					msg =
+						"<div style='text-align:right' class='type3'><input style='text-align:right' placeholder='日期' value='日期' style='width:12%;' />：<input value='" +
+						n + "'  style='width:20%;'/></div>"
+					break;
+				case 139:
+					msg = "<div class='type3' style='text-align:right'>" +
+						"<input style='text-align:right' placeholder='签字' value='签字' style='width:12%;' />：<input  style='width:20%;'/>" +
+						"<input style='text-align:right' placeholder='日期' value='日期' style='width:12%;' />：<input value='" + n +
+						"'  style='width:20%;'/>" +
+						"</div>"
+					break;
+			}
+			$('.table').append(msg)
+		}
+		function printTable(){
+			if ($(".table").html().trim() == "" || $(".table").html().trim() == null){
+				layer.msg('还未创建表格');
+			} else {
+				for(var i=0;i<$(".table input").length;i++){
+					$($(".table input")[i]).attr("value", $(".table input")[i].value)
+				}
+				Print('.table',{
+				        onStart: function () {
+				        },
+				        onEnd: function () {
+				        }
+				    });
+			}
+		}
+		// 撤销最后添加的元素
+		function cancel() {
+			$(".table div[class != checkbox]").last().remove()
+		}
+		var flag = false;
+		// 导出源码
+		function save(){
+			if ($(".table").html().trim() == "" || $(".table").html().trim() == null){
+				layer.msg('还未创建报告单');
+			} else {
+				$('#myModal').modal('show')
+				$("#htmlInfo").html($(".table").html().trim())
+				console.log($(".table").html())
+			}
+			// 
+		}
+		//取消
+		function qx(){
+			$('#myModal').modal('hide');
+		}
+		// 确认
+		function qr(){
+			flag = !flag
+			for(var i=0;i<$(".table input").length;i++){ //给输入框赋值
+				$($(".table input")[i]).attr("value", $(".table input")[i].value)
+			}
+			$('#myModal').modal('hide');
+		}
+		//监听刷新事件
+		document.body.onbeforeunload = function(event) {
+			if (!flag) {
+				var c = event || window.event;
+				if (/webkit/.test(navigator.userAgent.toLowerCase())) {
+					return "离开页面将导致数据丢失！";
+				} else {
+					c.returnValue = "离开页面将导致数据丢失！";
+				}
+			}
+		}
+	</script>
+	<style type="text/css">
+		html body {
+			font-family: "宋体";
+		}
+		xmp {
+		    display: block;
+		    font-family: monospace;
+		    white-space: pre-line;
+		    margin: 0;
+		}
+		.left {
+			display: inline-block;
+			width: 20%;
+			background: #F2F6FC;
+			border-radius: 5px;
+			border: 1px solid #409eff;
+			overflow-y: scroll;
+		}
+		.left::-webkit-scrollbar {
+		    display: none;
+		}
+		.code::-webkit-scrollbar {
+		    display: none;
+		}
+		.layui-colla-title {
+			position: relative;
+			height: 42px;
+			line-height: 42px;
+			padding: 0 15px 0 35px;
+			color: #333;
+			background-color: #F2F6FC;
+			cursor: pointer;
+			font-size: 16px;
+			overflow: hidden;
+		}
+
+		.layui-colla-item,
+		.layui-colla-content,
+		.layui-collapse {
+			border-color: #fff
+		}
+
+		.right {
+			box-sizing: border-box;
+			display: inline-block;
+			width: 70%;
+			margin-left: 9%;
+			padding: 20px 0;
+			background: #ECF6FF;
+			background: #F2F6FC;
+			border-radius: 5px;
+			border: 1px solid #409eff;
+			vertical-align: top;
+		}
+
+		.tableDiv {
+			display: inline-block;
+			text-align: left;
+			width: 80%;
+			height: 100%;
+			margin-left: 5%;
+			background: #fff;
+			overflow-y: scroll;
+		}
+		.tableDiv::-webkit-scrollbar {
+		    display: none;
+		}
+		.table{
+			text-align: left;
+		}
+		.choose1 {
+			display: inline-block;
+			width: 13%;
+			vertical-align: top;
+			overflow: hidden;
+		}
+
+		.btn {
+			display: inline-block;
+			background: #fff;
+			border-radius: 5px;
+			padding: 2px 2px;
+			margin: 2px 0 0 4px;
+			border: 1px solid #1890ff;
+		}
+
+		.btn:hover {
+			background: #1890ff;
+			color: #fff;
+		}
+
+		input {
+			border: none;
+		}
+		.mod{
+			border: 1px solid #0F0F0F;
+		}
+		textarea {
+			outline: none;
+			resize: none;
+			border: none;
+			overflow: hidden;
+		}
+
+		.type1 {
+			display: inline-block;
+			width: 33.33%;
+			border: 1px solid #585858;
+			padding: 10px 2px;
+			text-align: left;
+		}
+
+		.type2 {
+			display: inline-block;
+			width: 50%;
+			border: 1px solid #585858;
+			padding: 10px 2px;
+			text-align: left;
+		}
+
+		.type3 {
+			display: inline-block;
+			width: 100%;
+			border: 1px solid #585858;
+			padding: 10px 2px;
+			text-align: left;
+		}
+	</style>
+</html>
